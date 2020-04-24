@@ -2,7 +2,10 @@
   "dependencies": {
     "parcel": "^1.12.4"
   },
+  "devDependencies": {
+    "concurrently": "5.1.0"
+  },
   "scripts": {
-    "dev": "parcel serve src/index.html"
+    "dev": "concurrently --kill-others \"pulp --watch build\" \"parcel serve src/index.html\""
   }
 }
