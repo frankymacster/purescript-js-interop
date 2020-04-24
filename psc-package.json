@@ -1,8 +1,11 @@
 {
   "name": "purescript-js-interop",
-  "set": "psc-0.13.6",
+  "set": "psc-0.11.7",
   "source": "https://github.com/purescript/package-sets.git",
   "depends": [
-    "prelude"
+    "console",
+    "eff",
+    "prelude",
+    "psci-support"
   ]
 }
