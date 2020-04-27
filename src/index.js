@@ -1,5 +1,7 @@
-const Main = require('../output/Main/index');
+const Main = require('../output/Main/index')
 
-console.log('Hello from JavaScript');
+const store = Main.store()
 
-Main.main();
+store.subscribe(e => () => console.log("number is", e))()
+store.dispatch(Main.Succ.value)()
+store.dispatch(Main.Succ.value)()
