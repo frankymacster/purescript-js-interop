@@ -5,7 +5,9 @@
   "depends": [
     "console",
     "eff",
+    "lists",
     "prelude",
-    "psci-support"
+    "psci-support",
+    "transformers"
   ]
 }
