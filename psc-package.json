@@ -5,9 +5,11 @@
   "depends": [
     "console",
     "eff",
+    "generics",
     "lists",
     "prelude",
     "psci-support",
+    "refs",
     "transformers"
   ]
 }

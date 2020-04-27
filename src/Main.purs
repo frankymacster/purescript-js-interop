@@ -1,30 +1,34 @@
 module Main where
 
-import Control.Monad.State
-import Data.List (List(..), drop, head, (:))
-import Data.Maybe (Maybe)
-import Prelude (Unit, bind, discard, pure, unit, ($))
+import Data.Ring ((+), (-))
+import Data.Semigroup ((<>))
+import Prelude (bind, discard, show)
 
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, logShow)
+import Data.Generic (class Generic)
+import Control.Monad.Eff.Console (log)
 
-pushState :: Int -> State (List Int) Unit
-pushState x = modify (\s -> x : s)
+import Data.Store (createStore)
 
-popState :: State (List Int) (Maybe Int)
-popState = do
-    xs <- get
-    modify $ drop 1
-    pure $ head xs
+type State = Int
 
-manip :: State (List Int) Unit
-manip = do
-    pushState 4
-    _ <- popState
-    _ <- popState
-    pure unit
+seedState :: State
+seedState = 0
 
-main :: forall e. Eff (console :: CONSOLE | e) Unit
+data Action = Pred | Succ
+derive instance genericAction :: Generic Action
+
+update :: Action → State → State
+update Pred n = n - 1
+update Succ n = n + 1
+
 main = do
-  logShow $ runState manip (3 : 2 : 1 : Nil)
-  -- (Tuple unit (2 : 1 : Nil))
+  store ← createStore update seedState
+
+  store.subscribe \n → log ("The number is " <> show n)
+  -- prints "The number is 0" to the console.
+
+  store.dispatch Succ
+  -- prints "The number is 1" to the console.
+
+  store.dispatch Pred
+  -- prints "The number is 0" to the console.
